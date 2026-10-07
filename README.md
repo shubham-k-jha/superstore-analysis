@@ -8,8 +8,8 @@ This project uses a real historical Superstore retail dataset and demonstrates a
 
 ## 🔗 Project Links
 
-- 🌐 **[Live Interactive Dashboard](https://shubhamkjha-3267.github.io/superstore-analysis/)**
-- 📁 **[GitHub Repository](https://github.com/shubhamkjha-3267/superstore-analysis)**
+- 🌐 **[Live Interactive Dashboard](https://shubham-k-jha.github.io/superstore-analysis/)**
+- 📁 **[GitHub Repository](https://github.com/shubham-k-jha/superstore-analysis)**
 - 🧮 **[SQL Analysis](sql/01_analysis_queries.sql)**
 - 📖 **[Power BI Build Guide](powerbi_guide/POWERBI_GUIDE.md)**
 - 📊 **Power BI-ready data model:** `data/powerbi/`

@@ -4,7 +4,7 @@
 
 **Raw Data → Data Cleaning → Star Schema → SQL Analysis → Python Visualization → Interactive Dashboard → Power BI**
 
-This project uses a real historical Superstore retail dataset and demonstrates a complete analytics workflow from raw transactional data to business insights and dashboard-ready reporting.
+This project uses a historical Canadian Superstore retail dataset. Monetary values are shown in source-dataset currency units; verify the source's currency denomination before interpreting them as CAD figures.
 
 ## 🔗 Project Links
 

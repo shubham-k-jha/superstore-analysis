@@ -46,9 +46,13 @@ if os.path.exists(DB_PATH):
     os.remove(DB_PATH)
 
 conn = sqlite3.connect(DB_PATH)
-for name, table in tables.items():
-    table.to_sql(name, conn, index=False, if_exists="replace")
-print("Loaded star schema into SQLite ->", DB_PATH)
+try:
+    for name, table in tables.items():
+        table.to_sql(name, conn, index=False, if_exists="replace")
+    print("Loaded star schema into SQLite ->", DB_PATH)
+except Exception:
+    conn.close()
+    raise
 
 # ---------------------------------------------------------------------------
 # 2. Parse and run each query

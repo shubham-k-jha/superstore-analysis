@@ -40,7 +40,7 @@ The objective is to turn transactional data into **actionable business insights*
 
 ## 📊 Dataset
 
-The project uses a **real historical retail dataset**, not synthetic data.
+The project uses a historical Canadian Superstore retail dataset. Confirm the source's currency denomination before interpreting financial amounts as CAD.
 
 | Metric | Value |
 |---|---:|
@@ -103,7 +103,7 @@ The source export contains data-quality issues to review, including:
    - Apply DAX measures and dashboard design recommendations from the build guide
 
 5. **Interactive web dashboard**
-   - `dashboard/index.html`
+   - `index.html`
    - Provides a browser-based view of the core KPIs and analysis
    - Hosted through GitHub Pages
 
@@ -121,10 +121,10 @@ The source export contains data-quality issues to review, including:
 
 | Product | Profit |
 |---|---:|
-| Tables | **-CA$99K** |
-| Bookcases | **-CA$34K** |
+| Tables | **-$99K** |
+| Bookcases | **-$34K** |
 
-Meanwhile, **Telephones, Office Machines, and Binders** each generate **CA$300K+ in profit**.
+Meanwhile, **Telephones, Office Machines, and Binders** each generate **$300K+ in profit**.
 
 **Insight:** Furniture is a clear candidate for a deeper review of pricing, discounting, product costs, shipping costs, and supplier economics.
 
@@ -181,7 +181,7 @@ The Python pipeline generates static analytical charts.
 
 # 📊 Power BI Dashboard
 
-The Power BI model is built around the same star schema used for the SQL analysis.
+The Power BI-ready model is built around the same star schema used for the SQL analysis.
 
 ### Model
 
@@ -249,11 +249,7 @@ It provides a lightweight way to explore the project's core metrics without requ
 
 ### Run locally
 
-Open:
-
-```text
-dashboard/index.html
-```
+Open the root-level `index.html` file in a browser. `dashboard/index.html` is a duplicate copy and should be kept in sync if it is retained.
 
 in a browser.
 

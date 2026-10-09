@@ -251,8 +251,6 @@ It provides a lightweight way to explore the project's core metrics without requ
 
 Open the root-level `index.html` file in a browser. `dashboard/index.html` is a duplicate copy and should be kept in sync if it is retained.
 
-in a browser.
-
 Or use the hosted version:
 
 **https://shubham-k-jha.github.io/superstore-analysis/**

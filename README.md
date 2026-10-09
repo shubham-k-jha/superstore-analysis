@@ -4,7 +4,7 @@
 
 **Raw Data → Data Cleaning → Star Schema → SQL Analysis → Python Visualization → Interactive Dashboard → Power BI**
 
-This project uses a real historical Superstore retail dataset and demonstrates a complete analytics workflow from raw transactional data to business insights and dashboard-ready reporting.
+This project uses a historical Canadian Superstore retail dataset. Monetary values are shown in source-dataset currency units; verify the source's currency denomination before interpreting them as CAD figures.
 
 ## 🔗 Project Links
 
@@ -40,7 +40,7 @@ The objective is to turn transactional data into **actionable business insights*
 
 ## 📊 Dataset
 
-The project uses a **real historical retail dataset**, not synthetic data.
+The project uses a historical Canadian Superstore retail dataset. Confirm the source's currency denomination before interpreting financial amounts as CAD.
 
 | Metric | Value |
 |---|---:|
@@ -56,7 +56,7 @@ Key fields include:
 
 ### Data Quality
 
-The raw data contains real-world issues, including:
+The source export contains data-quality issues to review, including:
 
 - 63 missing `Product Base Margin` values
 - Encoding issues
@@ -103,7 +103,7 @@ The raw data contains real-world issues, including:
    - Apply DAX measures and dashboard design recommendations from the build guide
 
 5. **Interactive web dashboard**
-   - `dashboard/index.html`
+   - `index.html`
    - Provides a browser-based view of the core KPIs and analysis
    - Hosted through GitHub Pages
 
@@ -121,10 +121,10 @@ The raw data contains real-world issues, including:
 
 | Product | Profit |
 |---|---:|
-| Tables | **-₹99K** |
-| Bookcases | **-₹34K** |
+| Tables | **-$99K** |
+| Bookcases | **-$34K** |
 
-Meanwhile, **Telephones, Office Machines, and Binders** each generate **₹300K+ in profit**.
+Meanwhile, **Telephones, Office Machines, and Binders** each generate **$300K+ in profit**.
 
 **Insight:** Furniture is a clear candidate for a deeper review of pricing, discounting, product costs, shipping costs, and supplier economics.
 
@@ -181,7 +181,7 @@ The Python pipeline generates static analytical charts.
 
 # 📊 Power BI Dashboard
 
-The Power BI model is built around the same star schema used for the SQL analysis.
+The Power BI-ready model is built around the same star schema used for the SQL analysis.
 
 ### Model
 
@@ -226,7 +226,7 @@ See:
 
 # 🌐 Interactive Dashboard
 
-## 🚀 [View the Live Superstore Dashboard](https://shubhamkjha-3267.github.io/superstore-analysis/)
+## 🚀 [View the Live Superstore Dashboard](https://shubham-k-jha.github.io/superstore-analysis/)
 
 A browser-based interactive dashboard is included in:
 
@@ -249,17 +249,11 @@ It provides a lightweight way to explore the project's core metrics without requ
 
 ### Run locally
 
-Open:
-
-```text
-dashboard/index.html
-```
-
-in a browser.
+Open the root-level `index.html` file in a browser. `dashboard/index.html` is a duplicate copy and should be kept in sync if it is retained.
 
 Or use the hosted version:
 
-**https://shubhamkjha-3267.github.io/superstore-analysis/**
+**https://shubham-k-jha.github.io/superstore-analysis/**
 
 ---
 
@@ -305,14 +299,14 @@ superstore-analysis/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/shubhamkjha-3267/superstore-analysis.git
+git clone https://github.com/shubham-k-jha/superstore-analysis.git
 cd superstore-analysis
 ```
 
 ### 2. Install dependencies
 
 ```bash
-pip install pandas numpy matplotlib
+pip install -r requirements.txt
 ```
 
 ### 3. Clean and build the data model
@@ -344,7 +338,7 @@ dashboard/index.html
 
 Or visit the live dashboard:
 
-**https://shubhamkjha-3267.github.io/superstore-analysis/**
+**https://shubham-k-jha.github.io/superstore-analysis/**
 
 ---
 

@@ -18,12 +18,34 @@ PBI_DIR = os.path.join(ROOT, "data", "powerbi")
 os.makedirs(CLEAN_DIR, exist_ok=True)
 os.makedirs(PBI_DIR, exist_ok=True)
 
+if not os.path.isfile(RAW_PATH):
+    raise FileNotFoundError(
+        f"Raw dataset not found: {RAW_PATH}\n"
+        "Place the source CSV at data/raw/superstore_sales.csv."
+    )
+
 df = pd.read_csv(RAW_PATH, encoding="latin1")
 
 # ---------------------------------------------------------------------------
-# Standardize column names
+# Standardize column names and validate the input contract
 # ---------------------------------------------------------------------------
 df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
+
+required_columns = {
+    "row_id", "order_id", "order_date", "ship_date", "order_priority",
+    "ship_mode", "customer_name", "customer_segment", "product_name",
+    "product_category", "product_sub-category", "product_container",
+    "region", "province", "order_quantity", "unit_price", "discount",
+    "sales", "profit", "shipping_cost", "product_base_margin",
+}
+missing_columns = sorted(required_columns.difference(df.columns))
+if missing_columns:
+    raise ValueError(
+        "Raw dataset is missing required columns: " + ", ".join(missing_columns)
+    )
+
+if df.empty:
+    raise ValueError("Raw dataset contains no rows.")
 
 # ---------------------------------------------------------------------------
 # Parse dates
@@ -37,7 +59,12 @@ print(f"Dropped {before - len(df)} rows with unparseable dates")
 
 # sanity check: ship date should never precede order date
 bad_ship = df[df["ship_date"] < df["order_date"]]
-print(f"Rows where ship_date < order_date: {len(bad_ship)} (kept, flagged for review)")
+if not bad_ship.empty:
+    examples = bad_ship[["row_id", "order_date", "ship_date"]].head(5).to_dict("records")
+    raise ValueError(
+        f"Found {len(bad_ship)} rows where ship_date precedes order_date. "
+        f"Fix or explicitly exclude these records before analysis. Examples: {examples}"
+    )
 
 df["shipping_days"] = (df["ship_date"] - df["order_date"]).dt.days
 
@@ -49,6 +76,12 @@ df["shipping_days"] = (df["ship_date"] - df["order_date"]).dt.days
 missing_margin = df["product_base_margin"].isna().sum()
 df["product_base_margin"] = df.groupby("product_category")["product_base_margin"] \
     .transform(lambda x: x.fillna(x.median()))
+remaining_margin = int(df["product_base_margin"].isna().sum())
+if remaining_margin:
+    raise ValueError(
+        f"{remaining_margin} product_base_margin values remain missing after "
+        "category-median imputation. Inspect categories with no valid median."
+    )
 print(f"Imputed {missing_margin} missing product_base_margin values with category median")
 
 # ---------------------------------------------------------------------------
@@ -115,6 +148,16 @@ fact = fact.merge(dim_region, on=["region", "province"], how="left")
 
 fact["order_date_id"] = fact["order_date"].dt.strftime("%Y%m%d").astype(int)
 fact["ship_date_id"] = fact["ship_date"].dt.strftime("%Y%m%d").astype(int)
+
+# Enforce key integrity before writing outputs.
+if len(fact) != len(df):
+    raise RuntimeError(
+        f"Fact table row count changed during dimension joins: "
+        f"{len(df)} source rows -> {len(fact)} fact rows."
+    )
+for key in ["customer_id", "product_id", "region_id"]:
+    if fact[key].isna().any():
+        raise RuntimeError(f"Fact table contains missing {key} values after dimension joins.")
 
 fact_sales = fact[[
     "row_id", "order_id", "customer_id", "product_id", "region_id",

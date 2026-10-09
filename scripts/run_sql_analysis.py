@@ -25,16 +25,34 @@ os.makedirs(VISUALS_DIR, exist_ok=True)
 plt.style.use("seaborn-v0_8-whitegrid")
 
 # ---------------------------------------------------------------------------
-# 1. Load star schema into SQLite
+# 1. Validate and load the star schema into SQLite
 # ---------------------------------------------------------------------------
+table_names = ["fact_sales", "dim_customer", "dim_product", "dim_region", "dim_date"]
+tables = {}
+for name in table_names:
+    csv_path = os.path.join(PBI_DIR, f"{name}.csv")
+    if not os.path.isfile(csv_path):
+        raise FileNotFoundError(
+            f"Required star-schema table is missing: {csv_path}. "
+            "Run scripts/clean_and_model.py first."
+        )
+    table = pd.read_csv(csv_path)
+    if table.empty:
+        raise ValueError(f"Required star-schema table is empty: {csv_path}")
+    tables[name] = table
+
+# Only replace the existing database after every required input has passed checks.
 if os.path.exists(DB_PATH):
     os.remove(DB_PATH)
 
 conn = sqlite3.connect(DB_PATH)
-for name in ["fact_sales", "dim_customer", "dim_product", "dim_region", "dim_date"]:
-    df = pd.read_csv(os.path.join(PBI_DIR, f"{name}.csv"))
-    df.to_sql(name, conn, index=False, if_exists="replace")
-print("Loaded star schema into SQLite ->", DB_PATH)
+try:
+    for name, table in tables.items():
+        table.to_sql(name, conn, index=False, if_exists="replace")
+    print("Loaded star schema into SQLite ->", DB_PATH)
+except Exception:
+    conn.close()
+    raise
 
 # ---------------------------------------------------------------------------
 # 2. Parse and run each query
@@ -49,7 +67,16 @@ for i in range(1, len(blocks), 2):
     qtext = blocks[i + 1]
     match = re.search(r"^\s*(SELECT|WITH)\b", qtext, re.IGNORECASE | re.MULTILINE)
     sql_stmt = qtext[match.start():].strip() if match else qtext.strip()
+    if not sql_stmt:
+        raise ValueError(f"Could not parse SQL for Q{qnum}; check query comment markers.")
     queries[f"Q{qnum}"] = sql_stmt
+
+expected_queries = {f"Q{i}" for i in range(1, 9)}
+if set(queries) != expected_queries:
+    raise ValueError(
+        f"Expected SQL queries Q1-Q8, found: {sorted(queries)}. "
+        "Check the -- Qn. section markers in sql/01_analysis_queries.sql."
+    )
 
 results = {}
 for qname, sql in queries.items():
@@ -69,7 +96,7 @@ fig, ax = plt.subplots(figsize=(10, 8))
 ax.barh(df1["product_sub_category"], df1["total_profit"], color=colors)
 ax.axvline(0, color="black", linewidth=0.8)
 ax.set_title("Profit by Product Sub-Category", fontsize=13, fontweight="bold")
-ax.set_xlabel("Total Profit (Rs.)")
+ax.set_xlabel("Total Profit (source units)")
 plt.tight_layout()
 plt.savefig(os.path.join(VISUALS_DIR, "profit_by_subcategory.png"), dpi=150)
 plt.close()
@@ -91,10 +118,10 @@ df5 = results["Q5"]
 df5["period"] = df5["month_name"] + " " + df5["year"].astype(str)
 fig, ax1 = plt.subplots(figsize=(12, 5))
 ax1.plot(df5["period"], df5["sales"], color="#2563eb", label="Sales", linewidth=2)
-ax1.set_ylabel("Sales (Rs.)", color="#2563eb")
+ax1.set_ylabel("Sales (source units)", color="#2563eb")
 ax2 = ax1.twinx()
 ax2.plot(df5["period"], df5["profit"], color="#f59e0b", label="Profit", linewidth=2)
-ax2.set_ylabel("Profit (Rs.)", color="#f59e0b")
+ax2.set_ylabel("Profit (source units)", color="#f59e0b")
 ax1.set_title("Monthly Sales vs. Profit Trend", fontsize=13, fontweight="bold")
 plt.xticks(rotation=90, fontsize=7)
 plt.tight_layout()
@@ -116,7 +143,7 @@ df8 = results["Q8"]
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.bar(df8["product_category"], df8["total_loss"].abs(), color="#ef4444")
 ax.set_title("Total Loss by Category (from loss-making orders)", fontsize=13, fontweight="bold")
-ax.set_ylabel("Total Loss (Rs., absolute)")
+ax.set_ylabel("Total Loss (source units, absolute)")
 plt.tight_layout()
 plt.savefig(os.path.join(VISUALS_DIR, "losses_by_category.png"), dpi=150)
 plt.close()

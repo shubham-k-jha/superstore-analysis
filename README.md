@@ -1,300 +1,310 @@
-# Superstore Sales & Profitability Analysis
 
-> **End-to-end retail analytics project using SQL, Python, and Power BI to uncover the drivers of sales, profitability, discounting, shipping performance, and customer value.**
+<div align="center">
 
-**Raw Data → Data Cleaning → Star Schema → SQL Analysis → Python Visualization → Interactive Dashboard → Power BI**
+# 📊 Superstore Sales & Profitability Intelligence
 
-This project uses a historical Canadian Superstore retail dataset. Monetary values are shown in source-dataset currency units; verify the source's currency denomination before interpreting them as CAD figures.
+### Turning Retail Data into Business Decisions
 
-## 🔗 Project Links
+**Data Analytics · SQL · Python · Power BI · Business Intelligence**
 
-- 🌐 **[Live Interactive Dashboard](https://shubham-k-jha.github.io/superstore-analysis/)**
-- 📁 **[GitHub Repository](https://github.com/shubham-k-jha/superstore-analysis)**
-- 🧮 **[SQL Analysis](sql/01_analysis_queries.sql)**
-- 📖 **[Power BI Build Guide](powerbi_guide/POWERBI_GUIDE.md)**
-- 📊 **Power BI-ready data model:** `data/powerbi/`
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![SQL](https://img.shields.io/badge/SQL-4479A1?style=for-the-badge&logo=postgresql&logoColor=white)](sql/01_analysis_queries.sql)
+[![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)](powerbi_guide/POWERBI_GUIDE.md)
+[![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![Dashboard](https://img.shields.io/badge/Live-Dashboard-0D9488?style=for-the-badge&logo=googlechrome&logoColor=white)](https://shubham-k-jha.github.io/superstore-analysis/)
 
----
+<br/>
 
-## 🎯 Business Problem
+<a href="https://shubham-k-jha.github.io/superstore-analysis/">
+  <strong>🚀 EXPLORE THE INTERACTIVE DASHBOARD →</strong>
+</a>
 
-A Canadian office-supplies retailer wants to understand:
+<br/><br/>
 
-> **Where is the company actually making money, and where is it quietly losing it?**
+<a href="sql/01_analysis_queries.sql">SQL Analysis</a> •
+<a href="powerbi_guide/POWERBI_GUIDE.md">Power BI Guide</a> •
+<a href="https://github.com/shubham-k-jha/superstore-analysis">Source Code</a>
 
-Sales volume alone can be misleading. A product can generate strong revenue while producing little profit—or even losing money.
-
-This project analyzes:
-
-- Sales performance
-- Profitability
-- Discounting behavior
-- Shipping performance
-- Customer value
-- Regional performance
-- Product and category performance
-
-The objective is to turn transactional data into **actionable business insights**, rather than simply reporting sales totals.
+</div>
 
 ---
 
-## 📊 Dataset
+## 🎯 The Business Challenge
 
-The project uses a historical Canadian Superstore retail dataset. Confirm the source's currency denomination before interpreting financial amounts as CAD.
+> **Are high sales actually generating high profits—or are discounts, products, and operational inefficiencies quietly destroying margins?**
 
-| Metric | Value |
-|---|---:|
-| Order line items | 8,399 |
-| Orders | 5,496 |
-| Time period | 2009–2012 |
-| Original columns | 21 |
-| Data type | Retail transactions |
+Sales revenue alone does not tell the whole story. A product can sell well while losing money, and a profitable business can still have a large proportion of loss-making transactions.
 
-Key fields include:
+This project transforms historical retail transactions into actionable insights through data cleaning, dimensional modeling, SQL analysis, visualization, and dashboard development.
 
-`Sales` · `Profit` · `Discount` · `Shipping Cost` · `Order Priority` · `Product Base Margin` · `Customer` · `Product` · `Region` · `Order Date` · `Ship Date`
+## 📌 Project at a Glance
 
-### Data Quality
+<table>
+<tr>
+<td align="center" width="25%">
 
-The source export contains data-quality issues to review, including:
+### 8,399
 
-- 63 missing `Product Base Margin` values
-- Encoding issues
-- Date validation requirements
-- Dimensional values requiring normalization
+**Transaction Lines**
 
-### Source
+</td>
+<td align="center" width="25%">
 
-[Superstore Sales Dataset](https://raw.githubusercontent.com/curran/data/gh-pages/superstoreSales/superstoreSales.csv)
+### 5,496
 
----
+**Orders**
 
-## 🛠️ Tools & Why
+</td>
+<td align="center" width="25%">
 
-| Tool | Role |
-|---|---|
-| **Python / Pandas** | Data cleaning, transformation, and star-schema modeling |
-| **SQL / SQLite** | Eight business-question analyses using joins, CTEs, subqueries, and window functions |
-| **Matplotlib** | Static analytical charts |
-| **Power BI / DAX** | Interactive dashboard, KPIs, and business reporting |
-| **HTML / CSS / JavaScript** | Browser-based interactive dashboard |
-| **Git / GitHub** | Version control and project documentation |
+### 2009–2012
 
----
+**Data Period**
 
-## 🔄 Approach
+</td>
+<td align="center" width="25%">
 
-1. **Clean & model** — `scripts/clean_and_model.py`
-   - Parse and validate dates
-   - Ensure ship dates do not precede order dates
-   - Impute 63 missing `product_base_margin` values using the category median
-   - Build a proper star schema:
-     `fact_sales` + `dim_customer` + `dim_product` + `dim_region` + `dim_date`
+### 8
 
-2. **Analyze in SQL** — `sql/01_analysis_queries.sql`
-   - Run eight business questions against the star schema in SQLite
-   - Use joins, CTEs, subqueries, aggregations, and window functions
+**SQL Questions**
 
-3. **Visualize in Python**
-   - Generate static charts for the README and portfolio
+</td>
+</tr>
+</table>
 
-4. **Build for Power BI**
-   - Use the same star schema for Power BI
-   - Apply DAX measures and dashboard design recommendations from the build guide
+> Monetary figures are presented in the source dataset's units. Verify the original dataset's currency denomination before interpreting amounts as CAD. The metrics below are reported analytical results and should be reproduced before being used as audited business findings.
 
-5. **Interactive web dashboard**
-   - `index.html`
-   - Provides a browser-based view of the core KPIs and analysis
-   - Hosted through GitHub Pages
+## 🧭 Analytical Workflow
 
----
+```mermaid
+flowchart TD
+    A["📂 Raw Retail Dataset"] --> B["🔍 Data Quality Checks"]
+    B --> C["🧹 Cleaning & Transformation"]
+    C --> D["🗄️ Star Schema Modeling"]
+    D --> E["🧮 SQL Analysis · SQLite"]
+    D --> F["📊 Power BI Data Model"]
+    E --> G["📈 Charts & Analytical Results"]
+    G --> H["🌐 Interactive Dashboard"]
+    F --> I["📉 BI Reporting"]
 
-# 💡 Key Findings
-
-### 1. Half of Order Lines Lose Money
-
-**4,264 of 8,399 order lines (50.8%) have negative profit**, even though the company remains profitable overall with approximately a **10.2% margin**.
-
-**Insight:** Losses are concentrated rather than evenly distributed, making product, category, customer, and regional investigation more useful than treating profitability as a company-wide problem.
-
-### 2. Furniture Is the Biggest Profitability Problem
-
-| Product | Profit |
-|---|---:|
-| Tables | **-$99K** |
-| Bookcases | **-$34K** |
-
-Meanwhile, **Telephones, Office Machines, and Binders** each generate **$300K+ in profit**.
-
-**Insight:** Furniture is a clear candidate for a deeper review of pricing, discounting, product costs, shipping costs, and supplier economics.
-
-### 3. Deep Discounts Can Destroy Margin
-
-Orders discounted **0–10%** maintain approximately **10–13% margins**, while the **11–30% discount** group falls to approximately **-21.3% margin**.
-
-This is a **dollar-weighted metric**, rather than a naive average of row-level percentages.
-
-**Insight:** Discounting may increase sales volume without creating proportional profit.
-
-### 4. Low-Priority Orders Ship Much Slower
-
-Low-priority orders average approximately **4.24 days**, compared with approximately **1.5 days** for the other priority levels.
-
-The difference is consistent across all three shipping modes.
-
-**Insight:** The pattern suggests a potential internal prioritization or queue-management issue rather than simply a carrier problem.
-
-### 5. Regional Profitability Is Uneven
-
-**Nunavut and Newfoundland** trail other provinces in profitability.
-
-Potential factors worth investigating include:
-
-- Shipping costs
-- Order volume
-- Product mix
-- Regional demand
-- Pricing
-- Logistics
-
-This is a follow-up hypothesis, not a claim that geography itself causes the lower profitability.
-
----
-
-# 📈 Visual Analysis
-
-The Python pipeline generates static analytical charts.
-
-| Profit by Sub-Category | Discount vs Margin |
-|---|---|
-| ![Profit by Sub-Category](visuals/profit_by_subcategory.png) | ![Discount vs Margin](visuals/discount_vs_margin.png) |
-
-| Monthly Sales & Profit Trend | Shipping Days by Mode |
-|---|---|
-| ![Monthly Trend](visuals/monthly_sales_profit_trend.png) | ![Shipping by Mode](visuals/shipping_days_by_mode.png) |
-
-| Losses by Category | Power BI Dashboard |
-|---|---|
-| ![Losses by Category](visuals/losses_by_category.png) | ![Power BI Dashboard](visuals/superstore_dashboard.png) |
-
----
-
-# 📊 Power BI Dashboard
-
-The Power BI-ready model is built around the same star schema used for the SQL analysis.
-
-### Model
-
-```text
-                    fact_sales
-                        │
-        ┌───────────────┼───────────────┐
-        │               │               │
-        ▼               ▼               ▼
- dim_customer    dim_product      dim_region
-                        │
-                        ▼
-                    dim_date
+    style A fill:#dbeafe,stroke:#2563eb,color:#111827
+    style B fill:#fef3c7,stroke:#d97706,color:#111827
+    style C fill:#fef3c7,stroke:#d97706,color:#111827
+    style D fill:#ede9fe,stroke:#7c3aed,color:#111827
+    style E fill:#dbeafe,stroke:#2563eb,color:#111827
+    style F fill:#dbeafe,stroke:#2563eb,color:#111827
+    style G fill:#dcfce7,stroke:#16a34a,color:#111827
+    style H fill:#dcfce7,stroke:#16a34a,color:#111827
+    style I fill:#dcfce7,stroke:#16a34a,color:#111827
 ```
 
-Power BI-ready tables are located in:
+## 💡 Key Business Findings
 
-```text
-data/powerbi/
-```
+<table>
+<tr>
+<td width="50%" valign="top">
 
-The build guide covers:
+### 🔴 01 · Hidden Profitability Issues
 
-- Data import
-- Table relationships
-- DAX measures
-- KPI design
-- Dashboard layout
-- Visualization recommendations
+# 50.8%
 
-See:
+**4,264 of 8,399 transaction lines** reportedly have negative recorded profit.
 
-**[`powerbi_guide/POWERBI_GUIDE.md`](powerbi_guide/POWERBI_GUIDE.md)**
+**Business implication:** Aggregate profitability can hide substantial losses across individual transactions. Investigate performance by product, customer, and region.
 
-### Dashboard
+</td>
+<td width="50%" valign="top">
 
-![Superstore Power BI Dashboard](visuals/superstore_dashboard.png)
+### 🪑 02 · Furniture Losses
 
-> The repository includes the Power BI-ready data model and dashboard guide. The live browser dashboard is available below.
+# −$99K
 
----
+Reported profit for **Tables**.
 
-# 🌐 Interactive Dashboard
+# −$34K
 
-## 🚀 [View the Live Superstore Dashboard](https://shubham-k-jha.github.io/superstore-analysis/)
+Reported profit for **Bookcases**.
 
-A browser-based interactive dashboard is included in:
+**Business implication:** Review discounting, product costs, shipping expenses, and pricing before recommending changes.
 
-```text
-dashboard/index.html
-```
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
-It provides a lightweight way to explore the project's core metrics without requiring Power BI Desktop.
+### 🏷️ 03 · Discount & Margin
 
-### Dashboard includes
+# −21.3%
 
-- Sales KPIs
-- Profit KPIs
-- Profit margin
-- Sales trends
-- Product performance
-- Regional performance
-- Customer insights
-- Profitability analysis
+Reported weighted margin for the **11–30% discount band**.
 
-### Run locally
+**Business implication:** Higher discounts may coincide with weaker margins. This is a descriptive association, not proof of causation.
 
-Open the root-level `index.html` file in a browser. `dashboard/index.html` is a duplicate copy and should be kept in sync if it is retained.
+</td>
+<td width="50%" valign="top">
 
-Or use the hosted version:
+### 🚚 04 · Shipping Performance
 
-**https://shubham-k-jha.github.io/superstore-analysis/**
+# 4.24 days
 
----
+Reported average shipping time for low-priority orders, compared with approximately 1.5 days for other priority levels.
 
-# 📁 Project Structure
+**Business implication:** Investigate order queues, processing delays, and shipping workflows.
 
-```text
-superstore-analysis/
-│
-├── data/
-│   ├── raw/                    # Original dataset
-│   ├── clean/                  # Cleaned data
-│   ├── powerbi/                # Power BI star-schema tables
-│   └── results/                # SQL query results
-│
-├── sql/
-│   └── 01_analysis_queries.sql
-│
-├── scripts/
-│   ├── clean_and_model.py      # Raw → clean → star schema
-│   └── run_sql_analysis.py     # SQLite → SQL analysis → charts
-│
-├── powerbi_guide/
-│   └── POWERBI_GUIDE.md        # Relationships, DAX, dashboard design
-│
-├── dashboard/
-│   └── index.html              # Interactive web dashboard
-│
-├── visuals/
-│   ├── profit_by_subcategory.png
-│   ├── discount_vs_margin.png
-│   ├── monthly_sales_profit_trend.png
-│   ├── shipping_days_by_mode.png
-│   ├── losses_by_category.png
-│   └── superstore_dashboard.png
-│
-└── README.md
-```
+</td>
+</tr>
+</table>
+
+**Regional observation:** Nunavut and Newfoundland are identified as lower-profit regions in the current analysis. Further investigation is required to determine whether shipping costs, product mix, order volume, or pricing explain the differences.
+
+*All headline metrics should be validated against freshly generated pipeline outputs. Negative-profit transaction lines are not necessarily equivalent to loss-making orders.*
 
 ---
 
-# ▶️ How to Run
+## 📈 Visual Analytics
+
+### Profitability & Product Performance
+
+<table>
+<tr>
+<td width="50%" align="center">
+
+**Profit by Sub-Category**
+
+<a href="visuals/profit_by_subcategory.png">
+<img src="visuals/profit_by_subcategory.png" alt="Profit by product sub-category" width="100%"/>
+</a>
+
+</td>
+<td width="50%" align="center">
+
+**Discount vs. Weighted Margin**
+
+<a href="visuals/discount_vs_margin.png">
+<img src="visuals/discount_vs_margin.png" alt="Discount versus weighted profit margin" width="100%"/>
+</a>
+
+</td>
+</tr>
+<tr>
+<td width="50%" align="center">
+
+**Monthly Sales & Profit**
+
+<a href="visuals/monthly_sales_profit_trend.png">
+<img src="visuals/monthly_sales_profit_trend.png" alt="Monthly sales and profit trend" width="100%"/>
+</a>
+
+</td>
+<td width="50%" align="center">
+
+**Shipping Days by Mode**
+
+<a href="visuals/shipping_days_by_mode.png">
+<img src="visuals/shipping_days_by_mode.png" alt="Shipping days by shipping mode" width="100%"/>
+</a>
+
+</td>
+</tr>
+</table>
+
+<details>
+<summary><strong>📊 View category losses and Power BI dashboard</strong></summary>
+
+<br/>
+
+<table>
+<tr>
+<td width="50%" align="center">
+
+**Losses by Category**
+
+<img src="visuals/losses_by_category.png" alt="Losses by category" width="100%"/>
+
+</td>
+<td width="50%" align="center">
+
+**Power BI Dashboard**
+
+<img src="visuals/superstore_dashboard.png" alt="Power BI dashboard preview" width="100%"/>
+
+</td>
+</tr>
+</table>
+
+</details>
+
+## 🗄️ Data Modeling Architecture
+
+The project uses a dimensional model designed for analytical queries and Power BI reporting.
+
+```mermaid
+flowchart TB
+    FS[("FACT SALES")]
+
+    DC["DIM CUSTOMER"]
+    DP["DIM PRODUCT"]
+    DR["DIM REGION"]
+    DD["DIM DATE"]
+
+    DC --> FS
+    DP --> FS
+    DR --> FS
+    DD --> FS
+
+    FS --- M["Sales · Profit · Discount<br/>Shipping Cost · Quantity"]
+
+    style FS fill:#1d4ed8,stroke:#1e40af,color:#ffffff
+    style DC fill:#dbeafe,stroke:#2563eb,color:#111827
+    style DP fill:#dbeafe,stroke:#2563eb,color:#111827
+    style DR fill:#dbeafe,stroke:#2563eb,color:#111827
+    style DD fill:#dbeafe,stroke:#2563eb,color:#111827
+    style M fill:#dcfce7,stroke:#16a34a,color:#111827
+```
+
+### Data Model Components
+
+| Table | Purpose |
+|---|---|
+| `fact_sales` | Transaction-level sales, profit, discount, and shipping measures |
+| `dim_customer` | Customer attributes and segments |
+| `dim_product` | Product names, categories, and sub-categories |
+| `dim_region` | Geographic attributes |
+| `dim_date` | Calendar attributes for time-based analysis |
+
+**Power BI-ready files:** `data/powerbi/`
+
+See the [Power BI Build Guide](powerbi_guide/POWERBI_GUIDE.md) for relationships, DAX measures, KPI design, and dashboard recommendations.
+
+## 🛠️ Technology Stack
+
+<table>
+<tr><th>Technology</th><th>Application</th></tr>
+<tr><td>Python</td><td>Data processing and analytical pipelines</td></tr>
+<tr><td>Pandas & NumPy</td><td>Data cleaning, transformation, and calculations</td></tr>
+<tr><td>SQL & SQLite</td><td>Business analysis, joins, CTEs, aggregations, and window functions</td></tr>
+<tr><td>Matplotlib</td><td>Analytical charts and visual exploration</td></tr>
+<tr><td>Power BI & DAX</td><td>Business intelligence modeling and reporting</td></tr>
+<tr><td>HTML, CSS & JavaScript</td><td>Interactive browser-based dashboard</td></tr>
+<tr><td>Git & GitHub</td><td>Version control and documentation</td></tr>
+</table>
+
+## 🧹 Data Quality & Preparation
+
+The source export includes 63 missing `Product Base Margin` values and requires encoding, date, and dimensional-data checks.
+
+The pipeline performs the following steps:
+
+- Validates required columns and input availability.
+- Parses order and shipping dates.
+- Rejects records where shipping precedes ordering.
+- Handles missing product-base-margin values using product-category medians.
+- Creates fact and dimension tables.
+- Checks row counts and key integrity after dimension joins.
+
+**Methodological note:** Median imputation is an explicit modeling choice. It should be considered when interpreting margin-related results.
+
+## ▶️ Run Locally
 
 ### 1. Clone the repository
 
@@ -303,121 +313,136 @@ git clone https://github.com/shubham-k-jha/superstore-analysis.git
 cd superstore-analysis
 ```
 
-### 2. Install dependencies
+### 2. Create a virtual environment
 
 ```bash
-pip install -r requirements.txt
+python -m venv .venv
 ```
 
-### 3. Clean and build the data model
+Activate it on Linux/macOS:
 
 ```bash
-python3 scripts/clean_and_model.py
+source .venv/bin/activate
 ```
 
-This creates the cleaned dataset and star-schema tables.
+On Windows PowerShell:
 
-### 4. Run the SQL analysis
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+### 3. Install dependencies
 
 ```bash
-python3 scripts/run_sql_analysis.py
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
-This:
+### 4. Download the dataset
 
-- Loads the star schema into SQLite
-- Executes all eight business questions
-- Saves query results
-- Generates the visualization outputs
-
-### 5. Open the dashboard
+Download the [Superstore Sales CSV](https://raw.githubusercontent.com/curran/data/gh-pages/superstoreSales/superstoreSales.csv) and save it as:
 
 ```text
-dashboard/index.html
+data/raw/superstore_sales.csv
 ```
 
-Or visit the live dashboard:
+### 5. Clean the data and build the model
 
-**https://shubham-k-jha.github.io/superstore-analysis/**
+```bash
+python scripts/clean_and_model.py
+```
 
----
+### 6. Execute SQL analysis
 
-# 🧠 SQL Concepts Demonstrated
+```bash
+python scripts/run_sql_analysis.py
+```
 
-- Star-schema joins
-- Multi-table `JOIN`s
-- `GROUP BY`
-- `HAVING`
-- CTEs
+The pipeline generates cleaned data, star-schema tables, SQL result files, and analytical charts.
+
+### 7. Open the dashboard
+
+🌐 **[Launch the live dashboard](https://shubham-k-jha.github.io/superstore-analysis/)**
+
+You can also open the root-level `index.html` locally.
+
+> **Reproducibility:** The dashboard contains embedded figures. Regenerate and compare its metrics whenever the dataset or analysis changes. The root `index.html` and `dashboard/index.html` are duplicate copies and should be kept synchronized.
+
+## 📂 Repository Structure
+
+```text
+superstore-analysis/
+├── data/
+│   ├── raw/               # Source dataset
+│   ├── clean/             # Cleaned data
+│   ├── powerbi/           # Fact and dimension tables
+│   └── results/           # SQL outputs
+├── scripts/
+│   ├── clean_and_model.py
+│   └── run_sql_analysis.py
+├── sql/
+│   └── 01_analysis_queries.sql
+├── powerbi_guide/
+│   └── POWERBI_GUIDE.md
+├── visuals/
+│   ├── profit_by_subcategory.png
+│   ├── discount_vs_margin.png
+│   ├── monthly_sales_profit_trend.png
+│   ├── shipping_days_by_mode.png
+│   ├── losses_by_category.png
+│   └── superstore_dashboard.png
+├── index.html
+├── dashboard/
+│   └── index.html
+├── requirements.txt
+└── README.md
+```
+
+## 🧠 SQL Concepts Demonstrated
+
+- Multi-table joins and dimensional queries
+- `GROUP BY` and `HAVING`
+- Common table expressions (CTEs)
 - Nested subqueries
-- Window functions
-- `RANK()`
-- `NTILE()`
+- Window functions, `RANK()`, and `NTILE()`
 - Conditional aggregation
-- Date-based analysis
-- Customer value quartiles
-- Profitability analysis
-- Dollar-weighted vs. naive-average aggregation
+- Date-based trend analysis
+- Customer value and profitability analysis
+- Weighted-margin calculations
 
----
+## ⚠️ Limitations & Next Steps
 
-# 🎯 Skills Demonstrated
+### Current limitations
 
-**Data Analytics**
-- Business problem solving
-- KPI analysis
-- Profitability analysis
-- Customer analysis
-- Product analysis
-- Regional analysis
-- Data-driven recommendations
+- Historical data does not represent current retail conditions.
+- The source currency denomination must be verified.
+- Correlation between discounting and profit does not establish causation.
+- Embedded dashboard metrics can drift from regenerated analytical outputs.
+- Runtime and metric reproducibility must be verified before the results are treated as audited.
 
-**SQL**
-- Complex joins
-- CTEs
-- Subqueries
-- Aggregations
-- Window functions
-- SQLite
+### Planned improvements
 
-**Python**
-- Pandas
-- NumPy
-- Matplotlib
-- Data cleaning
-- Data transformation
-- Analytical pipelines
+- Add automated regression tests and continuous integration.
+- Generate dashboard metrics directly from pipeline outputs.
+- Add customer cohort and RFM segmentation.
+- Investigate furniture losses and shipping-cost optimization.
+- Expand dashboard filtering and automate data refresh.
+- Extend SQL analysis to PostgreSQL.
 
-**Power BI**
-- Star-schema modeling
-- DAX
-- KPI design
-- Interactive dashboards
-- Business reporting
+## 👤 About the Author
 
----
+<div align="center">
 
-# 🚀 Possible Next Steps
+### Shubham Jha
 
-- Rebuild the pipeline against PostgreSQL
-- Add `Sales YoY %` time intelligence in Power BI
-- Add customer cohort analysis
-- Build RFM customer segmentation
-- Investigate furniture losses using a deeper cost/margin breakdown
-- Add shipping-cost optimization analysis
-- Expand the interactive dashboard with additional filters
-- Automate dashboard data refresh
+**Data Analyst · Business Intelligence · Aspiring Data Scientist**
 
----
+Interested in turning complex datasets into clear, reliable, and actionable business insights.
 
-## 👤 Author
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/shubham-k-jha)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-0D9488?style=for-the-badge&logo=googlechrome&logoColor=white)](https://shubham-k-jha.github.io/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/shubham-k-jha/)
 
-**Shubham Jha**
+**If you find this project useful, explore the SQL queries, reproduce the pipeline, and inspect the dashboard.**
 
-**Data Analyst | Aspiring Data Scientist**
-
-Interested in **Data Analytics, Business Intelligence, Data Science, and Python-based analytical roles**.
-
----
-
-⭐ **If you found this project useful, feel free to explore the SQL analysis, Python pipeline, Power BI model, and interactive dashboard.**
+</div>
